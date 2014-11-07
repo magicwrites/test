@@ -25,7 +25,7 @@ update = () ->
     spawned.stdout.on 'data', (data) ->
         console.log 'STDOUT: \n\n %s', data
 
-        if data.search 'up-to-date' < 0 then rebuild()
+        if data.toString().search 'up-to-date' < 0 then rebuild()
 
     spawned.stderr.on 'data', (data) ->
         console.log 'STDERR: \n\n %s', data
