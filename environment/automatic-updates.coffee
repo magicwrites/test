@@ -3,6 +3,12 @@ path = require 'path'
 
 
 
+rebuild = () ->
+    spawned = child.spawn 'touch', ['updated.touched']
+
+    spawned.on 'close', (code) ->
+        console.log 'REBUILD EXITED WITH CODE %s', code
+
 checkExecutionDirectory = () ->
     expected = __dirname
     expected = expected.split path.sep
@@ -18,6 +24,8 @@ update = () ->
 
     spawned.stdout.on 'data', (data) ->
         console.log 'STDOUT: \n\n %s', data
+
+        if data.search 'up-to-date' < 0 then rebuild()
 
     spawned.stderr.on 'data', (data) ->
         console.log 'STDERR: \n\n %s', data
